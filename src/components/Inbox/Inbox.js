@@ -23,28 +23,73 @@ class Inbox {
     }
 
     static selectedIds (mail) {
-        
+        return mail.reduce((selArr, message) => {
+            return (message.selected) ? [...selArr, message.id] : selArr
+        }, [])
     }
 
     //toolbarFun
     markRead () {
-        
+        this.setState(prev => {
+            let selected = Inbox.selectedIds(prev)
+            selected.forEach(id => {
+                for (let i = 0; i < prev.mail.length; i++) {
+                    if (prev.mail[i].id === id) {
+                        prev.mail[i].read = true
+                        break
+                    }
+                }
+            })
+            return prev
+        })
     }
 
     markUnread () {
-
+        this.setState(prev => {
+            let selected = Inbox.selectedIds(prev)
+            selected.forEach(id => {
+                for (let i = 0; i < prev.mail.length; i++) {
+                    if (prev.mail[i].id === id) {
+                        prev.mail[i].read = false;
+                        break
+                    }
+                }
+            })
+            return prev
+        })
     }
 
     markAllChecked () {
-
+        this.setState(prev => {
+            prev.forEach(message => {
+                message.selected = true
+            })
+            return prev
+        })
     }
 
     markAllUnchecked () {
-
+        this.setState(prev => {
+            prev.forEach(message => {
+                message.selected = false
+            })
+            return prev
+        })
     }
 
     deleteMessages () {
-        
+        this.setState(prev => {
+            let selected = Inbox.selectedIds(prev)
+            selected.forEach(id => {
+                for (let i = 0; i < prev.mail.length; i++) {
+                    if (prev.mail[i].id === id) {
+                        prev.mail.splice(i, 1)
+                        break
+                    }
+                }
+            })
+            return prev
+        })
     }
 
 
