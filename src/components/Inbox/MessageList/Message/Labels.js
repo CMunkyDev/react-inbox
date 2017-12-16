@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 const Labels = ({labelArr = []}) => {
     return labelArr.map(label => <span className="label label-warning">{label}</span>)

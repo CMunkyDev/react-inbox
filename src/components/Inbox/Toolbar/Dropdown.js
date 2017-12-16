@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 const Dropdown = ({optionArr, nullText, changeCallback}) => {
     return (
         <select onChange={changeCallback} className="form-control label-select">
             <option>{nullText}</option>
-            {optionArr.map(option => <option value={option}>{option}</option>)}
+            {optionArr.map((option, index) => <option key = { index } value = { option }>{ option }</option>)}
         </select>
     )
 }

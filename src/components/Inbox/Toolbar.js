@@ -24,8 +24,8 @@ class Toolbar extends Component {
 
   checkButtonText = () => {
     if (this.props.toolbarFun.allSelected()) return <i className="fa fa-check-square-o"></i>
-    if (this.props.toolbarFun.someSelected()) return <i class="fa fa-minus-square-o"></i>
-    if (this.props.toolbarFun.noneSelected()) return <i class="fa fa-square-o"></i>
+    if (this.props.toolbarFun.someSelected()) return <i className="fa fa-minus-square-o"></i>
+    if (this.props.toolbarFun.noneSelected()) return <i className="fa fa-square-o"></i>
     return ''
   }
 

@@ -5,22 +5,36 @@ import Checkbox from './Message/Checkbox'
 import Labels from './Message/Labels'
 
 class Message extends Component{
-  constructor ({props}) {
+  constructor (props) {
     super(props)
+    this.checkBoxCallback = this.checkBoxCallback.bind(this)
+    this.starCallback = this.starCallback.bind(this)
+  }
+
+  checkBoxCallback (e) {
+    e.preventDefault()
+    let id = this.props.message.id
+    this.props.messageFun.toggleChecked(id)
+  }
+
+  starCallback (e) {
+    e.preventDefault()
+    let id = this.props.message.id
+    this.props.messageFun.toggleChecked(id)
   }
 
   render () {
     return (
-      <div className="row message read selected">
+      <div className={`row message ${this.props.message.read ? 'read' : ''} ${this.props.message.selected ? 'selected' : ''}`}>
         <div className="col-xs-1">
           <div className="row">
-            <Checkbox />
-            <Star />
+            <Checkbox isChecked = {this.props.message.selected} callback = {this.checkBoxCallback} />
+            <Star filled = {this.props.message.starred} callback = {this.starCallback} />
           </div>
         </div>
         <div className="col-xs-11">
-          <Labels />
-          <Subject />
+          <Labels labelArr = {this.props.message.labels} />
+          <Subject messageSub = {this.props.message.subject} />
         </div>
       </div>
     )
