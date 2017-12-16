@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import Inbox from './components/Inbox'
 import seed from './seed.js'
 import './App.css';

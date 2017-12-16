@@ -7,7 +7,6 @@ import Dropdown from './Toolbar/Dropdown'
 class Toolbar extends Component {
   constructor (props) {
     super(props)
-    console.log(this.props)
   }
 
   unreadButton = () => {
@@ -30,12 +29,11 @@ class Toolbar extends Component {
   }
 
   checkButtonCallback = () => {
-    if (this.props.toolbarFun.allSelected()) return this.props.toolbarFun.markAllUnchecked
-    return this.props.toolbarFun.markAllChecked
-  }
-
-  checkButton = () => {
-    return <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback()} />
+    if (this.props.toolbarFun.allSelected()) {
+      return this.props.toolbarFun.markAllUnchecked
+    } else {
+      return this.props.toolbarFun.markAllChecked
+    }
   }
 
   applyLabelCallback = (e) => {
@@ -52,7 +50,9 @@ class Toolbar extends Component {
         selected.forEach(id => {
             for (let i = 0; i < this.props.mail.length; i++) {
                 if (this.props.mail[i].labels.length) {
-                    this.props.mail[i].labels.forEach(label => usedLabels[label] = '')
+                    this.props.mail[i].labels.forEach(label => {
+                      if (label) usedLabels[label] = ''
+                    })
                 }
             }
         })
@@ -67,7 +67,7 @@ class Toolbar extends Component {
         <div className="col-md-12">
           <Unread numUnread = {this.props.toolbarFun.countUnread()} />
 
-          {this.checkButton()}
+          <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback()} />
 
           {this.readButton()}
 

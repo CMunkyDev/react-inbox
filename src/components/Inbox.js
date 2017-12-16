@@ -30,7 +30,6 @@ class Inbox extends Component{
             // markChecked = this.markChecked.bind(this),
             // markUnchecked = this.markUnchecked.bind(this)
         }
-        console.log(this.state)
     }
 
     //toolbarFun
@@ -89,19 +88,19 @@ class Inbox extends Component{
 
     markAllChecked () {
         this.setState(prev => {
-            prev.mail.forEach(message => {
-                message.selected = true
+            let mail = prev.mail.map(message => {
+                return {...message, selected: true}
             })
-            return prev
+            return {...prev, mail}
         })
     }
 
     markAllUnchecked () {
         this.setState(prev => {
-            prev.mail.forEach(message => {
-                message.selected = false
+            let mail = prev.mail.map(message => {
+                return {...message, selected: false}
             })
-            return prev
+            return {...prev, mail}
         })
     }
 
@@ -155,7 +154,7 @@ class Inbox extends Component{
 
 
     //messageListFun
-    
+
     // markStarred (messageId) {
     //     this.setState(prev => {
     //         return prev.mail.map(message => message.id === messageId ? {...message, starred: true} : message)
@@ -171,7 +170,8 @@ class Inbox extends Component{
     //minimum: for loop w/ break to increase performance
     toggleStarred (messageId) {
         this.setState(prev => {
-            return prev.mail.map(message => message.id === messageId ? {...message, starred: !message.starred} : message)
+            let mail = prev.mail.map(message => message.id === messageId ? {...message, starred: !message.starred} : message)
+            return {...prev, mail}
         })
     }
 
@@ -189,13 +189,13 @@ class Inbox extends Component{
 
     toggleChecked (messageId) {
         this.setState(prev => {
-            return prev.mail.map(message => message.id === messageId ? {...message, selected: !message.selected} : message)
+            let mail = prev.mail.map(message => message.id === messageId ? {...message, selected: !message.selected} : message)
+            return {...prev, mail}
         })
     }
 
 
     render () {
-
         return (
             <div className = "container-fluid">
                 <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr}/>

@@ -7,20 +7,17 @@ import Labels from './Message/Labels'
 class Message extends Component{
   constructor (props) {
     super(props)
+    this.messageFun = this.props.messageListFun
     this.checkBoxCallback = this.checkBoxCallback.bind(this)
     this.starCallback = this.starCallback.bind(this)
   }
 
   checkBoxCallback (e) {
-    e.preventDefault()
-    let id = this.props.message.id
-    this.props.messageFun.toggleChecked(id)
+    this.messageFun.toggleChecked(this.props.message.id)
   }
 
   starCallback (e) {
-    e.preventDefault()
-    let id = this.props.message.id
-    this.props.messageFun.toggleChecked(id)
+    this.messageFun.toggleStarred(this.props.message.id)
   }
 
   render () {
