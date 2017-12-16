@@ -8,17 +8,19 @@ class Inbox {
     constructor (mail) {
         this.state = { mail , labels }
         const toolbarFun = {
-            markRead = markRead.bind(this),
-            markUnread = markRead.bind(this),
-            markAllChecked = markAllChecked.bind(this),
-            markAllUnchecked = markAllUnchecked.bind(this),
-            deleteMessages = deleteMessages.bind(this)
+            markRead: this.markRead.bind(this),
+            markUnread: this.markRead.bind(this),
+            markAllChecked: this.markAllChecked.bind(this),
+            markAllUnchecked: this.markAllUnchecked.bind(this),
+            deleteMessages: this.deleteMessages.bind(this)
         }
         const messageListFun = {
-            markStarred = markStarred.bind(this),
-            markUnstarred = markUnstarred.bind(this),
-            markChecked = markChecked.bind(this),
-            markUnchecked = markUnchecked.bind(this)
+            toggleStarred: this.toggleStarred.bind(this),
+            // markStarred = markStarred.bind(this),
+            // markUnstarred = markUnstarred.bind(this),
+            toggleChecked: this.toggleChecked.bind(this),
+            // markChecked = this.markChecked.bind(this),
+            // markUnchecked = this.markUnchecked.bind(this)
         }
     }
 
@@ -94,24 +96,46 @@ class Inbox {
 
 
     //messageListFun
-    markStarred (messageId) {
+    // markStarred (messageId) {
+    //     this.setState(prev => {
+    //         return prev.mail.map(message => message.id === messageId ? {...message, starred: true} : message)
+    //     })
+    // }
 
+    // markUnstarred (messageId) {
+    //     this.setState(prev => {
+    //         return prev.mail.map(message => message.id === messageId ? {...message, starred: false} : message)
+    //     })
+    // }
+
+    //minimum: for loop w/ break to increase performance
+    toggleStarred (messageId) {
+        this.setState(prev => {
+            return prev.mail.map(message => message.id === messageId ? {...message, starred: !message.starred} : message)
+        })
     }
 
-    markUnstarred (messageId) {
+    // markChecked (messageId) {
+    //     this.setState(prev => {
+    //         return prev.mail.map(message => message.id === messageId ? {...message, selected: true} : message)
+    //     })
+    // }
 
-    }
+    // markUnchecked (messageId) {
+    //     this.setState(prev => {
+    //         return prev.mail.map(message => message.id === messageId ? {...message, selected: false} : message)
+    //     })
+    // }
 
-    markChecked (messageId) {
-
-    }
-
-    markUnchecked (messageId) {
-
+    toggleChecked (messageId) {
+        this.setState(prev => {
+            return prev.mail.map(message => message.id === messageId ? {...message, selected: !message.selected} : message)
+        })
     }
 
 
     render () {
+
         return (
             <div className = "container-fluid">
                 <Toolbar mail = {mail} toolbarFun = {toolbarFun}/>
