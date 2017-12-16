@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
-    <div className="col-xs-2">
-        <i className="star fa fa-star-o"></i>
-    </div>
+const Star = (filled, callback) => {
+    return (
+        <div className="col-xs-2">
+            <i onClick={callback} className={`star fa ${filled ? 'fa-star' : 'fa-star-o'}`}></i>
+        </div>
+    )
+}
+    
 
 export default Star

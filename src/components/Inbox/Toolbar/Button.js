@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
 
-    <button className="btn btn-default">
-      Mark As Read
-    </button>
+class Button extends Component {
+    constructor (props) {
+        super(props)
+        this.callback = this.props.callback
+        this.innerFunc = this.props.innerFunc
+        this.disabled = this.props.disabled
+    }
 
-    <button className="btn btn-default">
-      Mark As Unread
-    </button>
-
-    <button className="btn btn-default">
-      <i className="fa fa-trash-o"></i>
-    </button>
-
-    <button className="btn btn-default">
-      <i className="fa fa-check-square-o"></i>
-    </button>
+    render () {
+        return (
+            <button onClick={callback} className="btn btn-default">
+                {this.innerFunc()}
+            </button>
+        )
+    }
+}
 
 export default Button

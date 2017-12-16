@@ -6,15 +6,20 @@ import MessageList from './Inbox/MessageList'
 let data = [...seed]
 let labels = ['dev', 'personal']
 
-class Inbox {
+class Inbox extends Component{
     constructor (mail) {
+        super()
         this.state = { mail , labels }
         const toolbarFun = {
             markRead: this.markRead.bind(this),
-            markUnread: this.markRead.bind(this),
+            markUnread: this.markUnread.bind(this),
             markAllChecked: this.markAllChecked.bind(this),
             markAllUnchecked: this.markAllUnchecked.bind(this),
-            deleteMessages: this.deleteMessages.bind(this)
+            deleteMessages: this.deleteMessages.bind(this),
+            allSelected: this.allSelected.bind(this),
+            someSelected: this.someSelected.bind(this),
+            noneSelected: this.noneSelected.bind(this),
+            selectedIds: this.selectedIds.bind(this)
         }
         const messageListFun = {
             toggleStarred: this.toggleStarred.bind(this),
@@ -26,8 +31,20 @@ class Inbox {
         }
     }
 
-    static selectedIds (mail) {
-        return mail.reduce((selArr, message) => {
+    allSelected () {
+        return this.state.mail.every(message => message.selected)
+    }
+
+    someSelected () {
+        return this.state.mail.some(message => message.selected)
+    }
+
+    noneSelected () {
+        return this.state.mail.every(message => !message.selected)
+    }
+
+    selectedIds (state = this.state) {
+        return state.mail.reduce((selArr, message) => {
             return (message.selected) ? [...selArr, message.id] : selArr
         }, [])
     }
@@ -35,7 +52,7 @@ class Inbox {
     //toolbarFun
     markRead () {
         this.setState(prev => {
-            let selected = Inbox.selectedIds(prev)
+            let selected = this.selectedIds(prev)
             selected.forEach(id => {
                 for (let i = 0; i < prev.mail.length; i++) {
                     if (prev.mail[i].id === id) {
@@ -50,7 +67,7 @@ class Inbox {
 
     markUnread () {
         this.setState(prev => {
-            let selected = Inbox.selectedIds(prev)
+            let selected = this.selectedIds(prev)
             selected.forEach(id => {
                 for (let i = 0; i < prev.mail.length; i++) {
                     if (prev.mail[i].id === id) {
@@ -83,7 +100,7 @@ class Inbox {
 
     deleteMessages () {
         this.setState(prev => {
-            let selected = Inbox.selectedIds(prev)
+            let selected = this.selectedIds(prev)
             selected.forEach(id => {
                 for (let i = 0; i < prev.mail.length; i++) {
                     if (prev.mail[i].id === id) {

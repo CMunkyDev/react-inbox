@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 
-    <div className="col-xs-2">
-        <input type="checkbox" checked="checked" />
-    </div>
+const Checkbox = (isChecked, callback) => {
+    return (
+        <div className="col-xs-2">
+            <input onClick={callback} type="checkbox" {isChecked ? 'checked' : ''}/>
+        </div>
+    )
+}
 
 export default Checkbox

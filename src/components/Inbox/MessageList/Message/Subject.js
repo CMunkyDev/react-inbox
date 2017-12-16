@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 
-    <a href="#">
-      Here is some message text that has a bunch of stuff
-    </a>
+const Subject = (messageSub) => {
+    return (
+        <a href="#">
+        {messageSub}
+        </a>
+    )
+}
 
 export default Subject
