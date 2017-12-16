@@ -22,7 +22,7 @@ class Message extends Component{
 
   render () {
     return (
-      <div className={`row message ${this.props.message.read ? 'read' : ''} ${this.props.message.selected ? 'selected' : ''}`}>
+      <div className={`row message ${this.props.message.read ? 'read' : 'unread'} ${this.props.message.selected ? 'selected' : ''}`}>
         <div className="col-xs-1">
           <div className="row">
             <Checkbox isChecked = {this.props.message.selected} callback = {this.checkBoxCallback} />
