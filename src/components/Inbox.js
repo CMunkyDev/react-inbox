@@ -24,11 +24,7 @@ class Inbox extends Component{
         }
         this.messageListFun = {
             toggleStarred: this.toggleStarred.bind(this),
-            // markStarred = markStarred.bind(this),
-            // markUnstarred = markUnstarred.bind(this),
             toggleChecked: this.toggleChecked.bind(this),
-            // markChecked = this.markChecked.bind(this),
-            // markUnchecked = this.markUnchecked.bind(this)
         }
     }
 
@@ -152,40 +148,12 @@ class Inbox extends Component{
         })
     }
 
-
-    //messageListFun
-
-    // markStarred (messageId) {
-    //     this.setState(prev => {
-    //         return prev.mail.map(message => message.id === messageId ? {...message, starred: true} : message)
-    //     })
-    // }
-
-    // markUnstarred (messageId) {
-    //     this.setState(prev => {
-    //         return prev.mail.map(message => message.id === messageId ? {...message, starred: false} : message)
-    //     })
-    // }
-
-    //minimum: for loop w/ break to increase performance
     toggleStarred (messageId) {
         this.setState(prev => {
             let mail = prev.mail.map(message => message.id === messageId ? {...message, starred: !message.starred} : message)
             return {...prev, mail}
         })
     }
-
-    // markChecked (messageId) {
-    //     this.setState(prev => {
-    //         return prev.mail.map(message => message.id === messageId ? {...message, selected: true} : message)
-    //     })
-    // }
-
-    // markUnchecked (messageId) {
-    //     this.setState(prev => {
-    //         return prev.mail.map(message => message.id === messageId ? {...message, selected: false} : message)
-    //     })
-    // }
 
     toggleChecked (messageId) {
         this.setState(prev => {
@@ -198,8 +166,8 @@ class Inbox extends Component{
     render () {
         return (
             <div className = "container-fluid">
-                <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr}/>
-                <MessageList mail = {this.state.mail} messageListFun = {this.messageListFun} labelArr = {this.state.labelArr}/>
+                <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr} />
+                <MessageList mail = {this.state.mail} messageListFun = {this.messageListFun} labelArr = {this.state.labelArr} />
             </div>
         )
     }

@@ -18,7 +18,7 @@ class Toolbar extends Component {
   }
 
   trashButton = () => {
-    return <Button innerFunc={() => <i className="fa fa-trash-o"></i>} callback={this.props.toolbarFun.deleteMessages} dsiabled = {this.props.toolbarFun.noneSelected() ? 'disabled' : ''}/>
+    return <Button innerFunc={() => <i className="fa fa-trash-o"></i>} callback={this.props.toolbarFun.deleteMessages} disabled = {this.props.toolbarFun.noneSelected() ? 'disabled' : ''}/>
   }
 
   checkButtonText = () => {
@@ -28,12 +28,16 @@ class Toolbar extends Component {
     return ''
   }
 
-  checkButtonCallback = () => {
+  checkButtonCallback () {
     if (this.props.toolbarFun.allSelected()) {
       return this.props.toolbarFun.markAllUnchecked
     } else {
       return this.props.toolbarFun.markAllChecked
     }
+  }
+
+  checkButton = () => {
+    return <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback()} />
   }
 
   applyLabelCallback = (e) => {
@@ -67,15 +71,15 @@ class Toolbar extends Component {
         <div className="col-md-12">
           <Unread numUnread = {this.props.toolbarFun.countUnread()} />
 
-          <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback()} />
+          {this.checkButton()}
 
           {this.readButton()}
 
           {this.unreadButton()}
 
-          <Dropdown optionArr = {this.props.labelArr} nullText = {'Apply Label'} changeCallback = {this.applyLabelCallback} />
+          <Dropdown optionArr = {this.props.labelArr} nullText = {'Apply Label'} changeCallback = {this.applyLabelCallback} disabled = {this.props.toolbarFun.noneSelected() ? 'disabled' : ''}/>
 
-          <Dropdown optionArr = {this.selectedLabels()} nullText = {'Remove Label'} changeCallback = {this.removeLabelCallback} />
+          <Dropdown optionArr = {this.selectedLabels()} nullText = {'Remove Label'} changeCallback = {this.removeLabelCallback} disabled = {this.props.toolbarFun.noneSelected() ? 'disabled' : ''}/>
 
           {this.trashButton()}
         </div>

@@ -6,11 +6,13 @@ class Button extends Component {
         this.callback = this.props.callback
         this.innerFunc = this.props.innerFunc
         this.disabled = this.props.disabled
+
     }
 
     render () {
         return (
-            <button onClick={this.callback} className="btn btn-default">
+            <button  
+            onClick={this.callback} className="btn btn-default" disabled = {this.props.disabled || false}>
                 {this.innerFunc()}
             </button>
         )
