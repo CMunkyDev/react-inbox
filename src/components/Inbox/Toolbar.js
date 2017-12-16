@@ -7,6 +7,8 @@ import Dropdown from './Toolbar/Dropdown'
 class Toolbar extends Component {
   constructor (props) {
     super(props)
+
+    this.checkButtonCallback = this.checkButtonCallback.bind(this)
   }
 
   unreadButton = () => {
@@ -30,14 +32,14 @@ class Toolbar extends Component {
 
   checkButtonCallback () {
     if (this.props.toolbarFun.allSelected()) {
-      return this.props.toolbarFun.markAllUnchecked
+      return this.props.toolbarFun.markAllUnchecked()
     } else {
-      return this.props.toolbarFun.markAllChecked
+      return this.props.toolbarFun.markAllChecked()
     }
   }
 
   checkButton = () => {
-    return <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback()} />
+    return <Button innerFunc = {() => this.checkButtonText()} callback = {this.checkButtonCallback} />
   }
 
   applyLabelCallback = (e) => {
