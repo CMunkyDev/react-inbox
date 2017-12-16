@@ -15,3 +15,5 @@ import React, { Component } from 'react'
     <button className="btn btn-default">
       <i className="fa fa-check-square-o"></i>
     </button>
+
+export default Button

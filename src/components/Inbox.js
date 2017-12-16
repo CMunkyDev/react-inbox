@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import seed from '../seed.js'
+import Toolbar from './Inbox/Toolbar'
+import MessageList from './Inbox/MessageList'
 
 let data = [...seed]
 let labels = ['dev', 'personal']
@@ -144,3 +146,5 @@ class Inbox {
         )
     }
 }
+
+export default Inbox

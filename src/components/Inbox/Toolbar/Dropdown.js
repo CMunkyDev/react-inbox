@@ -13,3 +13,5 @@ import React, { Component } from 'react'
       <option value="personal">personal</option>
       <option value="gschool">gschool</option>
     </select>
+
+export default Dropdown

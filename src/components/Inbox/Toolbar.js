@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Unread from './Unread'
-import Button from './Button'
-import Dropdown from './Dropdown'
+import Unread from './Toolbar/Unread'
+import Button from './Toolbar/Button'
+import Dropdown from './Toolbar/Dropdown'
 
 
 <div className="row toolbar">
@@ -21,3 +21,5 @@ import Dropdown from './Dropdown'
     //TRASH BUTTON
   </div>
 </div>
+
+export default Toolbar

@@ -4,3 +4,5 @@ import React, { Component } from 'react'
       <span className="badge badge">2</span>
       unread messages
     </p>
+
+export default Unread
