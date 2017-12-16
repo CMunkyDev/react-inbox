@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import seed from '../seed.js'
 import Toolbar from './Inbox/Toolbar'
 import MessageList from './Inbox/MessageList'
 
-let data = [...seed]
-let labels = ['dev', 'personal']
+
 
 class Inbox extends Component{
-    constructor (mail) {
+    constructor ({mail, labelArr}) {
         super()
-        this.state = { mail , labels }
-        const toolbarFun = {
+        this.state = { mail , labelArr }
+        this.toolbarFun = {
             markRead: this.markRead.bind(this),
             markUnread: this.markUnread.bind(this),
             markAllChecked: this.markAllChecked.bind(this),
@@ -19,9 +17,12 @@ class Inbox extends Component{
             allSelected: this.allSelected.bind(this),
             someSelected: this.someSelected.bind(this),
             noneSelected: this.noneSelected.bind(this),
-            selectedIds: this.selectedIds.bind(this)
+            selectedIds: this.selectedIds.bind(this),
+            countUnread: this.countUnread.bind(this),
+            applyLabel: this.applyLabel.bind(this),
+            removeLabel: this.removeLabel.bind(this)
         }
-        const messageListFun = {
+        this.messageListFun = {
             toggleStarred: this.toggleStarred.bind(this),
             // markStarred = markStarred.bind(this),
             // markUnstarred = markUnstarred.bind(this),
@@ -29,6 +30,13 @@ class Inbox extends Component{
             // markChecked = this.markChecked.bind(this),
             // markUnchecked = this.markUnchecked.bind(this)
         }
+        console.log(this.state)
+    }
+
+    //toolbarFun
+
+    countUnread () {
+        return this.state.mail.filter(message => !message.read).length
     }
 
     allSelected () {
@@ -49,7 +57,6 @@ class Inbox extends Component{
         }, [])
     }
 
-    //toolbarFun
     markRead () {
         this.setState(prev => {
             let selected = this.selectedIds(prev)
@@ -82,7 +89,7 @@ class Inbox extends Component{
 
     markAllChecked () {
         this.setState(prev => {
-            prev.forEach(message => {
+            prev.mail.forEach(message => {
                 message.selected = true
             })
             return prev
@@ -91,8 +98,41 @@ class Inbox extends Component{
 
     markAllUnchecked () {
         this.setState(prev => {
-            prev.forEach(message => {
+            prev.mail.forEach(message => {
                 message.selected = false
+            })
+            return prev
+        })
+    }
+
+    applyLabel (label) {
+        this.setState(prev => {
+            let selected = this.selectedIds(prev)
+            selected.forEach(id => {
+                for (let i = 0; i < prev.mail.length; i++) {
+                    if (prev.mail[i].id === id) {
+                        if (!prev.mail[i].labels.includes(label)) prev.mail[i].labels.push(label)
+                        prev.mail[i].labels.sort()
+                        break
+                    }
+                }
+            })
+            return prev
+        })
+    }
+
+    removeLabel (label) {
+        this.setState(prev => {
+            let selected = this.selectedIds(prev)
+            selected.forEach(id => {
+                for (let i = 0; i < prev.mail.length; i++) {
+                    if (prev.mail[i].id === id) {
+                        let index = prev.mail[i].labels.indexOf(label)
+                        if (~index) prev.mail[i].labels.splice(index, 1)
+                        prev.mail[i].labels.sort()
+                        break
+                    }
+                }
             })
             return prev
         })
@@ -115,6 +155,7 @@ class Inbox extends Component{
 
 
     //messageListFun
+    
     // markStarred (messageId) {
     //     this.setState(prev => {
     //         return prev.mail.map(message => message.id === messageId ? {...message, starred: true} : message)
@@ -157,8 +198,8 @@ class Inbox extends Component{
 
         return (
             <div className = "container-fluid">
-                <Toolbar mail = {mail} toolbarFun = {toolbarFun}/>
-                <MessageList mail = {mail} messageListFun = {messageListFun}/>
+                <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr}/>
+                <MessageList mail = {this.state.mail} messageListFun = {this.messageListFun} labelArr = {this.state.labelArr}/>
             </div>
         )
     }

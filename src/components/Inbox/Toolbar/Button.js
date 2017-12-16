@@ -10,7 +10,7 @@ class Button extends Component {
 
     render () {
         return (
-            <button onClick={callback} className="btn btn-default">
+            <button onClick={this.callback} className="btn btn-default">
                 {this.innerFunc()}
             </button>
         )

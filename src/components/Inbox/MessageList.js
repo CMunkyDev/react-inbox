@@ -1,9 +1,23 @@
 import React, { Component } from 'react'
 import Message from './MessageList/Message'
 
+class MessageList extends Component {
+    constructor (props) {
+        super(props)
+    }
 
-<div className="container-fluid">
+    generateMessageArray () {
+        return this.props.mail.map(message => <Message message={message}/>)
+    }
 
-</div>
+    render () {
+        return (
+            <div className="container-fluid">
+                {this.generateMessageArray()}
+            </div>
+        )
+    }
+}
+
 
 export default MessageList
