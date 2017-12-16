@@ -7,7 +7,7 @@ import Dropdown from './Toolbar/Dropdown'
 class Toolbar extends Component {
   constructor (props) {
     super(props)
-
+    this.selectedLabels = this.selectedLabels.bind(this)
     this.checkButtonCallback = this.checkButtonCallback.bind(this)
   }
 
@@ -52,16 +52,15 @@ class Toolbar extends Component {
 
   selectedLabels () {
         let selected = this.props.toolbarFun.selectedIds(this.props)
+        console.log(selected)
         let usedLabels = {}
-        selected.forEach(id => {
-            for (let i = 0; i < this.props.mail.length; i++) {
-                if (this.props.mail[i].labels.length) {
-                    this.props.mail[i].labels.forEach(label => {
-                      if (label) usedLabels[label] = ''
-                    })
-                }
+        for (let i = 0; i < this.props.mail.length; i++) {
+            if (this.props.mail[i].labels.length && this.props.mail[i].selected) {
+                this.props.mail[i].labels.forEach(label => {
+                  if (label) usedLabels[label] = ''
+                })
             }
-        })
+        }
         usedLabels = Object.keys(usedLabels)
         usedLabels.sort()
         return usedLabels
