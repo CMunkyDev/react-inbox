@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import Message from './MessageList/Message'
 
+
 class MessageList extends Component {
     constructor (props) {
         super(props)
-        console.log(this.props)
-
     }
 
     generateMessageArray = () => {
