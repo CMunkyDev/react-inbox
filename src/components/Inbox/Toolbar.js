@@ -48,10 +48,12 @@ class Toolbar extends Component {
 
   applyLabelCallback = (e) => {
     this.props.toolbarFun.applyLabel(e.target.value)
+    e.target.selectedIndex = 0
   }
 
   removeLabelCallback = (e) => {
     this.props.toolbarFun.removeLabel(e.target.value)
+    e.target.selectedIndex = 0
   }
 
   selectedLabels () {
