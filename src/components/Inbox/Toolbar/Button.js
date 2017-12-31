@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-const Button = ({callback, innerFunc, disabled}) => {
+const Button = ({callback, innerFunc, disabled, colorClass}) => {
     return (
         <button
-            onClick={callback} className="btn btn-default" disabled={disabled || false}>
+            onClick={callback} className={`btn ${colorClass || 'btn-default'}`} disabled={disabled || false}>
             {innerFunc()}
         </button>
     )

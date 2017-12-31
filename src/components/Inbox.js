@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import Toolbar from './Inbox/Toolbar'
 import MessageList from './Inbox/MessageList'
+import ComposeForm from './Inbox/ComposeForm'
 
 
 
 class Inbox extends Component{
     constructor ({mail, labelArr}) {
         super()
-        this.state = { mail , labelArr }
+        this.state = { mail, labelArr, composing: false }
         this.toolbarFun = {
             markRead: this.markRead.bind(this),
             markUnread: this.markUnread.bind(this),
@@ -20,7 +21,8 @@ class Inbox extends Component{
             selectedIds: this.selectedIds.bind(this),
             countUnread: this.countUnread.bind(this),
             applyLabel: this.applyLabel.bind(this),
-            removeLabel: this.removeLabel.bind(this)
+            removeLabel: this.removeLabel.bind(this),
+            toggleCompose: this.toggleCompose.bind(this)
         }
         this.messageListFun = {
             toggleStarred: this.toggleStarred.bind(this),
@@ -162,11 +164,18 @@ class Inbox extends Component{
         })
     }
 
+    toggleCompose () {
+        this.setState(prev => {
+            let composing = !prev.composing
+            return {...prev, composing}
+        })
+    }
 
     render () {
         return (
             <div className = "container-fluid">
                 <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr} />
+                {this.state.composing ? <ComposeForm /> : ''}
                 <MessageList mail = {this.state.mail} messageListFun = {this.messageListFun} labelArr = {this.state.labelArr} />
             </div>
         )

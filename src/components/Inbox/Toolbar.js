@@ -11,6 +11,10 @@ class Toolbar extends Component {
     this.checkButtonCallback = this.checkButtonCallback.bind(this)
   }
 
+  composeButton = () => {
+    return <Button innerFunc={() => <i class="fa fa-plus"></i>} callback={this.props.toolbarFun.toggleCompose} colorClass='btn-danger'/>
+  }
+
   unreadButton = () => {
     return <Button innerFunc={() => 'Mark As Unread'} callback={this.props.toolbarFun.markUnread} disabled = {this.props.toolbarFun.noneSelected() ? 'disabled' : ''}/>
   }
@@ -36,10 +40,6 @@ class Toolbar extends Component {
     } else {
       return this.props.toolbarFun.markAllChecked
     }
-
-
-
-    
   }
 
   checkButton = () => {
@@ -75,6 +75,8 @@ class Toolbar extends Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <Unread numUnread = {this.props.toolbarFun.countUnread()} />
+
+          {this.composeButton()}
 
           {this.checkButton()}
 
