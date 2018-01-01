@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Toolbar from './Inbox/Toolbar'
 import MessageList from './Inbox/MessageList'
 import ComposeForm from './Inbox/ComposeForm'
-import {_getMessages, _postMessage} from '../apiFun'
+import {_getMessages, _postMessage, _updateMessages} from '../apiFun'
 
 
 class Inbox extends Component{
@@ -51,9 +51,6 @@ class Inbox extends Component{
         event.preventDefault()
         let message = {subject: event.target.subject.value, body: event.target.body.value}
         let postedMessage = await _postMessage(message)
-        // this.setState(prev => {
-        //     return {...prev, mail: [...prev.mail, postedMessage]}
-        // })
         await this.refreshMessages()
         this.toggleCompose()
     }
@@ -80,34 +77,16 @@ class Inbox extends Component{
         }, [])
     }
 
-    markRead () {
-        this.setState(prev => {
-            let selected = this.selectedIds(prev)
-            selected.forEach(id => {
-                for (let i = 0; i < prev.mail.length; i++) {
-                    if (prev.mail[i].id === id) {
-                        prev.mail[i].read = true
-                        break
-                    }
-                }
-            })
-            return prev
-        })
+    async markRead () {
+        let selected = this.selectedIds()
+        await _updateMessages(selected, 'read', true)
+        await this.refreshMessages()
     }
 
-    markUnread () {
-        this.setState(prev => {
-            let selected = this.selectedIds(prev)
-            selected.forEach(id => {
-                for (let i = 0; i < prev.mail.length; i++) {
-                    if (prev.mail[i].id === id) {
-                        prev.mail[i].read = false;
-                        break
-                    }
-                }
-            })
-            return prev
-        })
+    async markUnread () {
+        let selected = this.selectedIds()
+        await _updateMessages(selected, 'read', false)
+        await this.refreshMessages()
     }
 
     markAllChecked () {
@@ -128,59 +107,28 @@ class Inbox extends Component{
         })
     }
 
-    applyLabel (label) {
-        this.setState(prev => {
-            let selected = this.selectedIds(prev)
-            selected.forEach(id => {
-                for (let i = 0; i < prev.mail.length; i++) {
-                    if (prev.mail[i].id === id) {
-                        if (!prev.mail[i].labels.includes(label)) prev.mail[i].labels.push(label)
-                        prev.mail[i].labels.sort()
-                        break
-                    }
-                }
-            })
-            return prev
-        })
+    async applyLabel (label) {
+        let selected = this.selectedIds()
+        await _updateMessages(selected, 'addLabel', label)
+        await this.refreshMessages()
     }
 
-    removeLabel (label) {
-        this.setState(prev => {
-            let selected = this.selectedIds(prev)
-            selected.forEach(id => {
-                for (let i = 0; i < prev.mail.length; i++) {
-                    if (prev.mail[i].id === id) {
-                        let index = prev.mail[i].labels.indexOf(label)
-                        if (~index) prev.mail[i].labels.splice(index, 1)
-                        prev.mail[i].labels.sort()
-                        break
-                    }
-                }
-            })
-            return prev
-        })
+    async removeLabel (label) {
+        let selected = this.selectedIds()
+        await _updateMessages(selected, 'removeLabel', label)
+        await this.refreshMessages()
     }
 
-    deleteMessages () {
-        this.setState(prev => {
-            let selected = this.selectedIds(prev)
-            selected.forEach(id => {
-                for (let i = 0; i < prev.mail.length; i++) {
-                    if (prev.mail[i].id === id) {
-                        prev.mail.splice(i, 1)
-                        break
-                    }
-                }
-            })
-            return prev
-        })
+    async deleteMessages () {
+        let selected = this.selectedIds()
+        await _updateMessages(selected, 'delete')
+        await this.refreshMessages()
     }
 
-    toggleStarred (messageId) {
-        this.setState(prev => {
-            let mail = prev.mail.map(message => message.id === messageId ? {...message, starred: !message.starred} : message)
-            return {...prev, mail}
-        })
+    async toggleStarred (messageId) {
+        let newVal = !this.state.mail.filter(message => message.id === messageId)[0].starred
+        await _updateMessages([messageId], 'star', newVal)
+        await this.refreshMessages()
     }
 
     toggleChecked (messageId) {

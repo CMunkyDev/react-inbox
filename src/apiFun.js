@@ -18,13 +18,13 @@ const _postMessage = async ({body, subject}) => {
     return createdJson
 }
 
-const _updateMessages = async ({messageIdArray, command, newValue}) => {
+const _updateMessages = async (messageIdArray, command, newValue) => {
     let key = command.includes('Label') ? 'label' : command
     let patchObject = {
-        messageIds: idArray,
+        messageIds: messageIdArray,
         command
     }
-    if (command != 'delete') patchObject.key = newValue
+    if (command != 'delete') patchObject[key] = newValue
     let patchedResponse = await fetch(`${process.env.REACT_APP_API_URL}`, {
         headers: {
             'Accept': 'application/json',
@@ -33,8 +33,7 @@ const _updateMessages = async ({messageIdArray, command, newValue}) => {
         method: 'PATCH',
         body: JSON.stringify(patchObject)
     })
-    let patchedJSON = await patchedResponse.json()
-    return patchedJSON
+    return true
 }
 
 
