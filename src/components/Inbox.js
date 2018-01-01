@@ -9,6 +9,8 @@ class Inbox extends Component{
     constructor () {
         super()
         this.state = { mail: [],
+            selected: [],
+            selectionDisplay: false,
             labelArr: ['dev', 'personal', 'gschool'],
             composing: false
         }
@@ -40,9 +42,17 @@ class Inbox extends Component{
         await this.refreshMessages()
     }
 
+    componentWillUpdate (nextProps, nextState) {
+        nextState.selected = this.selectedIds(nextState)
+    }
+
     async refreshMessages () {
         let messages = await _getMessages()
         this.setState(prev => {
+            messages = messages.map(message => {
+                if (prev.selected.includes(message.id)) message.selected = true
+                return message
+            })
             return { ...prev, mail: messages }
         })
     }
