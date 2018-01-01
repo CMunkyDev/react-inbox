@@ -24,8 +24,8 @@ const _updateMessages = async (messageIdArray, command, newValue) => {
         messageIds: messageIdArray,
         command
     }
-    if (command != 'delete') patchObject[key] = newValue
-    let patchedResponse = await fetch(`${process.env.REACT_APP_API_URL}`, {
+    if (command !== 'delete') patchObject[key] = newValue
+        await fetch(`${process.env.REACT_APP_API_URL}`, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

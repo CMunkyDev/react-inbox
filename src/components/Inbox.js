@@ -50,7 +50,7 @@ class Inbox extends Component{
     async sendEventHandler (event) {
         event.preventDefault()
         let message = {subject: event.target.subject.value, body: event.target.body.value}
-        let postedMessage = await _postMessage(message)
+        await _postMessage(message)
         await this.refreshMessages()
         this.toggleCompose()
     }
