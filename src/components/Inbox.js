@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import Toolbar from './Inbox/Toolbar'
 import MessageList from './Inbox/MessageList'
 import ComposeForm from './Inbox/ComposeForm'
-
+import {_getMessages, _postMessage} from '../apiFun'
 
 
 class Inbox extends Component{
-    constructor ({mail, labelArr}) {
+    constructor () {
         super()
-        this.state = { mail, labelArr, composing: false }
+        this.state = { mail: [],
+            labelArr: ['dev', 'personal', 'gschool'],
+            composing: false
+        }
         this.toolbarFun = {
             markRead: this.markRead.bind(this),
             markUnread: this.markUnread.bind(this),
@@ -28,9 +31,32 @@ class Inbox extends Component{
             toggleStarred: this.toggleStarred.bind(this),
             toggleChecked: this.toggleChecked.bind(this),
         }
+        this.composeFormFun = {
+            sendEventHandler: this.sendEventHandler.bind(this)
+        }
     }
 
-    //toolbarFun
+    async componentDidMount () {
+        await this.refreshMessages()
+    }
+
+    async refreshMessages () {
+        let messages = await _getMessages()
+        this.setState(prev => {
+            return { ...prev, mail: messages }
+        })
+    }
+
+    async sendEventHandler (event) {
+        event.preventDefault()
+        let message = {subject: event.target.subject.value, body: event.target.body.value}
+        let postedMessage = await _postMessage(message)
+        // this.setState(prev => {
+        //     return {...prev, mail: [...prev.mail, postedMessage]}
+        // })
+        await this.refreshMessages()
+        this.toggleCompose()
+    }
 
     countUnread () {
         return this.state.mail.filter(message => !message.read).length
@@ -175,7 +201,7 @@ class Inbox extends Component{
         return (
             <div className = "container-fluid">
                 <Toolbar mail = {this.state.mail} toolbarFun = {this.toolbarFun} labelArr = {this.state.labelArr} />
-                {this.state.composing ? <ComposeForm /> : ''}
+                {this.state.composing ? <ComposeForm composeFormFun={this.composeFormFun}/> : ''}
                 <MessageList mail = {this.state.mail} messageListFun = {this.messageListFun} labelArr = {this.state.labelArr} />
             </div>
         )

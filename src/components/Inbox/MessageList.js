@@ -8,7 +8,9 @@ class MessageList extends Component {
     }
 
     generateMessageArray = () => {
-        return this.props.mail.map(message => <Message key = {message.id} message = {message} messageListFun = {this.props.messageListFun} />)
+        let wasteOfSpace = [...this.props.mail]
+        wasteOfSpace.sort((a,b) => b.id - a.id)
+        return wasteOfSpace.map(message => <Message key = {message.id} message = {message} messageListFun = {this.props.messageListFun} />)
     }
 
     render () {

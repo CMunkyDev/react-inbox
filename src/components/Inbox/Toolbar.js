@@ -12,7 +12,7 @@ class Toolbar extends Component {
   }
 
   composeButton = () => {
-    return <Button innerFunc={() => <i class="fa fa-plus"></i>} callback={this.props.toolbarFun.toggleCompose} colorClass='btn-danger'/>
+    return <Button innerFunc={() => <i className="fa fa-plus"></i>} callback={this.props.toolbarFun.toggleCompose} colorClass='btn-danger'/>
   }
 
   unreadButton = () => {
